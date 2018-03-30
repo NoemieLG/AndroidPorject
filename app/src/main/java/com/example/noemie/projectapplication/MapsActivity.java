@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -36,8 +37,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     /*Pour le formulaire*/
     private EditText nom;
     private DatePicker date;
+    private int jour, mois, annee;
     private EditText temps;
     private EditText com;
+
+    //Pour sauvegarder les localisations dans une base de données
+    private SportDataSource dataBdd;
+    private CourseTable locationBdd;
+    //private DataFragment dataFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +53,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         nom = findViewById(R.id.sprinter);
         date = (DatePicker) findViewById(R.id.datePicker);
-        temps = (EditText) findViewById(R.id.temps);
-        com = (EditText) findViewById(R.id.com);
-        latitudeField = (TextView) findViewById(R.id.latitude_xml);
-        longitudeField = (TextView) findViewById(R.id.longitude_xml);
+        temps = findViewById(R.id.temps);
+        com = findViewById(R.id.com);
+        latitudeField = findViewById(R.id.latitude_xml);
+        longitudeField = findViewById(R.id.longitude_xml);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        jour = date.getDayOfMonth();
+        mois = date.getMonth();
+        annee = date.getYear();
+
+        //Pour instancier l'objet de la classe LocationDataSource
+        dataBdd = new SportDataSource(this);
     }
 
     /**
@@ -86,6 +100,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             clickMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Position choisie").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
             latitudeField.setText("Latitude : " + String.valueOf(latLng.latitude));
             longitudeField.setText("Longitude : " + String.valueOf(latLng.longitude));
+        }
+    }
+
+    /*Fonction appelé quand on clique sur le bouton pour aouter une course*/
+    public void myClickHandler(View view) {
+        switch (view.getId()) {
+            case R.id.button3:
+                dataBdd.open();
+                locationBdd = dataBdd.createCourse(nom.getText().toString(),
+                        String.valueOf(jour) + String.valueOf(mois) + String.valueOf(annee), latitudeField.getText().toString(),
+                        longitudeField.getText().toString(), temps.getText().toString(), com.getText().toString());
+                dataBdd.close();
+                finish();
+                break;
         }
     }
 }
