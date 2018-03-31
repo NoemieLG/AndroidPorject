@@ -1,5 +1,7 @@
 package com.example.noemie.projectapplication;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,7 +17,13 @@ import android.view.MenuItem;
 
 public class
 MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, CourseInBddFragment.OnFragmentInteractionListener {
+
+    CourseInBddFragment dataFragment;
+    SportDataSource dataBdd;
+    CourseTable courseBdd;
+
+    //MapsActivity course;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +49,22 @@ MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        /*Création du fragment
+        dataFragment = CourseInBddFragment.newInstance("param1", "param2");
+        getSupportFragmentManager().beginTransaction().add(R.id.data_frag, dataFragment).commit();
+
+        /*Récupération des données de l'intent
+        Bundle extras = getIntent().getExtras();
+
+        if (extras != null){
+            /*Affichage des valeurs dans les TextView de AsyncActivity
+            dataBdd = (SportDataSource) extras.getSerializable("dataBdd");
+            courseBdd = (CourseTable) extras.getSerializable("courseBdd");
+            dataBdd.open();
+            dataFragment.setCourseFromBdd(courseBdd);
+            dataBdd.close();
+        }*/
     }
 
     @Override
@@ -71,6 +95,14 @@ MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
+        /*if (id == R.id.action_bdd) {
+            //Pour récupérer les donner des la base de données et les afficher dans le fragment
+            if (course.courseBdd != null){
+                dataBdd.open();
+                dataFragment.setLocationFromBdd(locationBdd);
+                dataBdd.close();
+            }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -85,11 +117,13 @@ MainActivity extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.add_match) {
+            Intent intent = new Intent(this, MapsActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.see_match){
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
+        }
+        else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
@@ -98,5 +132,10 @@ MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
