@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.ContactsContract;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +92,19 @@ public class SportDataSource {
         course.setTemps(cursor.getString(cursor.getColumnIndex(DataBase.COL_TEMPS)));
         course.setCom(cursor.getString(cursor.getColumnIndex(DataBase.COL_COM)));
         return course;
+    }
+
+    public void updateCourse(long id, String tps, String com){
+        ContentValues values = new ContentValues();
+        values.put(DataBase.COL_TEMPS, tps);
+        values.put(DataBase.COL_COM, com);
+
+        database.update(DataBase.TABLE_COURSE, values, DataBase.COL_ID + "=" + id, null);
+        Cursor cursor = database.query(DataBase.TABLE_COURSE, allColumns, DataBase.COL_ID + "=" + id,
+                null, null, null, null);
+        cursor.moveToFirst();
+        CourseTable newCourse = cursorToCourse(cursor);
+        cursor.close();
     }
 
 }

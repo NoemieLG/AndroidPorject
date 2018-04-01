@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -31,6 +32,7 @@ MainActivity extends AppCompatActivity
     public static ListView listView;
     public static ArrayAdapter<CourseTable> adapter;
     Button delete;
+    Button modif;
 
     //MapsActivity course;
 
@@ -63,6 +65,12 @@ MainActivity extends AppCompatActivity
         dataBdd = new SportDataSource(this);
 
         listView = findViewById(R.id.list);
+        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                    long itemID = (long) listView.getItemAtPosition(position);
+            }
+        });*/
         dataBdd.open();
 
         List<CourseTable> values = dataBdd.getAllComments();
@@ -72,6 +80,7 @@ MainActivity extends AppCompatActivity
         listView.setAdapter(adapter);
 
         delete = findViewById(R.id.button_delete);
+        modif = findViewById(R.id.button_modif);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,6 +103,15 @@ MainActivity extends AppCompatActivity
             dataFragment.setCourseFromBdd(courseBdd);
             dataBdd.close();
         }*/
+    }
+
+    public void myClickHandler(View view) {
+        switch (view.getId()) {
+            case R.id.button_modif:
+                Intent intent = new Intent(this, UpdateActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 
     public void deleteOldestCourse(ListView listView){
