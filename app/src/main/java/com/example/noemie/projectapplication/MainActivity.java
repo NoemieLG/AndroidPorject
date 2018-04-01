@@ -14,6 +14,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.List;
 
 public class
 MainActivity extends AppCompatActivity
@@ -22,6 +28,9 @@ MainActivity extends AppCompatActivity
     CourseInBddFragment dataFragment;
     SportDataSource dataBdd;
     CourseTable courseBdd;
+    public static ListView listView;
+    public static ArrayAdapter<CourseTable> adapter;
+    Button delete;
 
     //MapsActivity course;
 
@@ -50,6 +59,26 @@ MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //Pour instancier l'objet de la classe LocationDataSource
+        dataBdd = new SportDataSource(this);
+
+        listView = findViewById(R.id.list);
+        dataBdd.open();
+
+        List<CourseTable> values = dataBdd.getAllComments();
+
+        // utilisez SimpleCursorAdapter pour afficher les éléments dans une ListView
+        adapter = new ArrayAdapter<CourseTable>(this, android.R.layout.simple_list_item_1, values);
+        listView.setAdapter(adapter);
+
+        delete = findViewById(R.id.button_delete);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteOldestCourse(listView);
+            }
+        });
+
         /*Création du fragment
         dataFragment = CourseInBddFragment.newInstance("param1", "param2");
         getSupportFragmentManager().beginTransaction().add(R.id.data_frag, dataFragment).commit();
@@ -65,6 +94,20 @@ MainActivity extends AppCompatActivity
             dataFragment.setCourseFromBdd(courseBdd);
             dataBdd.close();
         }*/
+    }
+
+    public void deleteOldestCourse(ListView listView){
+        if (listView.getAdapter().getCount() > 0) {
+            CourseTable courseTable = (CourseTable) listView.getAdapter().getItem(0);
+            dataBdd.open();
+            dataBdd.deleteCourse(courseTable);
+            adapter.remove(courseTable);
+            dataBdd.close();
+        }
+        else{
+            String msg = String.format("Aucunes courses à supprimer");
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -133,6 +176,12 @@ MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void onPause() {
+        super.onPause();
+        dataBdd.close();
+    }
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {
