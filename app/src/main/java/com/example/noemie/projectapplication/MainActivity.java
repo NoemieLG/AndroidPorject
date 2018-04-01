@@ -163,12 +163,9 @@ MainActivity extends AppCompatActivity
         } else if (id == R.id.add_match) {
             Intent intent = new Intent(this, MapsActivity.class);
             startActivity(intent);
-        } else if (id == R.id.see_match){
+        } else if (id == R.id.nav_stat) {
 
-        }
-        else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_info) {
 
         }
 
