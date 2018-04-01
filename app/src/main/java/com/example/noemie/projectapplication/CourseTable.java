@@ -71,7 +71,7 @@ public class CourseTable {
 
     /*Méthode utilisée par ArrayAdapter dans la listView*/
     public String toString(){
-        return ("Nom: " + nom + "Date: " + date + "Latitude: " + lat + "Longitude : "
-                + lon + "Temps: " + time + "Commentaire: " + com);
+        return ("Nom: " + nom + "\nDate: " + date + "\nLatitude: " + lat + "\nLongitude: "
+                + lon + "\nTemps: " + time + "\nCommentaire: " + com);
     }
 }

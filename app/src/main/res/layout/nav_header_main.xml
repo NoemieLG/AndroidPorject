@@ -22,14 +22,16 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="match_parent"
+        android:layout_content="center_horizontal"
+        android:layout_weight="1"
+        android:gravity="center"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:gravity="center_horizontal"
             android:text="Android Studio Project"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
@@ -37,7 +39,8 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
             android:text="LYONNARD Noémie et SEWERYN Antoine" />
 
     </LinearLayout>

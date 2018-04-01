@@ -4,22 +4,32 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+    <item android:title="Matchs">
+        <menu>
+            <item
+                android:id="@+id/add_match"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Ajouter un match" />
+
+            <item
+                android:id="@+id/see_match"
+                android:icon="@drawable/ic_menu_gallery"
+                android:title="Voir les anciens matchs" />
+        </menu>
+    </item>
+    <item android:title="Photos">
+        <menu>
+            <item
+                android:id="@+id/nav_camera"
+                android:icon="@drawable/ic_menu_camera"
+                android:title="Prendre une photo" />
+            <item
+                android:id="@+id/nav_gallery"
+                android:icon="@drawable/ic_menu_gallery"
+                android:title="Voir toutes les photos" />
+        </menu>
+
+    </item>
     </group>
 
     <item android:title="Communicate">

@@ -177,6 +177,7 @@ MainActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
     public void onPause() {
         super.onPause();
         dataBdd.close();
