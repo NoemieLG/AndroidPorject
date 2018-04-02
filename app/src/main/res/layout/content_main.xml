@@ -26,7 +26,8 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:gravity="center"
-            android:text="Voici vos anciennes courses: "
+            android:text="Voici vos anciennes courses, pour modifier cliquer sur la course et rentrer son id"
+            android:textColor="@android:color/white"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <ListView
@@ -41,13 +42,6 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:text="Supprimer la plus ancienne course" />
-        <Button
-            android:id="@+id/button_modif"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:onClick="myClickHandler"
-            android:text="Modifier une course" />
 
     </LinearLayout>
 

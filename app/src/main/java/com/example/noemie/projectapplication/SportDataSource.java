@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.provider.ContactsContract;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class SportDataSource {
     private DataBase myDB;
     private SQLiteDatabase database;
     private String[] allColumns = { DataBase.COL_ID, DataBase.COL_NOM, DataBase.COL_DATE,
-            DataBase.COL_LATITUDE, DataBase.COL_LONGITUDE, DataBase.COL_TEMPS, DataBase.COL_COM };
+            DataBase.COL_LATITUDE, DataBase.COL_LONGITUDE, DataBase.COL_TEMPS, DataBase.COL_COM};
 
 
     public SportDataSource(Context context) {
@@ -35,6 +36,7 @@ public class SportDataSource {
     }
 
     public CourseTable createCourse(String name, String date, String latitude, String longitude, String tps, String com) {
+
         ContentValues values = new ContentValues();
         values.put(DataBase.COL_NOM, name);
         values.put(DataBase.COL_DATE, date);
@@ -47,13 +49,6 @@ public class SportDataSource {
                 null, null, null, null);
         cursor.moveToFirst();
         CourseTable newCourse = cursorToCourse(cursor);
-        /*newCourse.setId(cursor.getLong(cursor.getColumnIndex(DataBase.COL_ID)));
-        newCourse.setNom(cursor.getString(cursor.getColumnIndex(DataBase.COL_NOM)));
-        newCourse.setDate(cursor.getString(cursor.getColumnIndex(DataBase.COL_DATE)));
-        newCourse.setLat(cursor.getString(cursor.getColumnIndex(DataBase.COL_LATITUDE)));
-        newCourse.setLon(cursor.getString(cursor.getColumnIndex(DataBase.COL_LONGITUDE)));
-        newCourse.setTemps(cursor.getString(cursor.getColumnIndex(DataBase.COL_TEMPS)));
-        newCourse.setCom(cursor.getString(cursor.getColumnIndex(DataBase.COL_COM)));*/
         cursor.close();
         return newCourse;
     }
@@ -80,6 +75,33 @@ public class SportDataSource {
         // assurez-vous de la fermeture du curseur
         cursor.close();
         return courses;
+    }
+
+    public List<CourseTable> getFiveCourses(){
+        List<CourseTable> courses = new ArrayList<>();
+        List<CourseTable> fivecourses = new ArrayList<>();
+
+        Cursor cursor = database.query(DataBase.TABLE_COURSE,
+                allColumns, null, null, null, null, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            CourseTable course = cursorToCourse(cursor);
+            courses.add(course);
+            cursor.moveToNext();
+        }
+        // assurez-vous de la fermeture du curseur
+        cursor.close();
+        if(courses.size() > 5){
+            fivecourses.add(courses.get((courses.size()-1)));
+            fivecourses.add(courses.get((courses.size()-2)));
+            fivecourses.add(courses.get((courses.size()-3)));
+            fivecourses.add(courses.get((courses.size()-4)));
+            fivecourses.add(courses.get((courses.size()-5)));
+            return fivecourses;
+        } else {
+            return courses;
+        }
     }
 
     private CourseTable cursorToCourse(Cursor cursor) {

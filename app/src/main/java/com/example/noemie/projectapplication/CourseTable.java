@@ -1,5 +1,7 @@
 package com.example.noemie.projectapplication;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by Noemie on 30/03/2018.
  */
@@ -7,7 +9,7 @@ package com.example.noemie.projectapplication;
 public class CourseTable {
     private long id;
     private String nom;
-    private String  date;
+    private String date;
     private String lat;
     private String lon;
     private String time;

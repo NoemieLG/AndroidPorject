@@ -32,9 +32,7 @@ MainActivity extends AppCompatActivity
     public static ListView listView;
     public static ArrayAdapter<CourseTable> adapter;
     Button delete;
-    Button modif;
 
-    //MapsActivity course;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,22 +63,22 @@ MainActivity extends AppCompatActivity
         dataBdd = new SportDataSource(this);
 
         listView = findViewById(R.id.list);
-        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                    long itemID = (long) listView.getItemAtPosition(position);
+                    //long itemID = (long) listView.getItemAtPosition(position);
+                modifyCourse();
             }
-        });*/
+        });
         dataBdd.open();
 
-        List<CourseTable> values = dataBdd.getAllComments();
+        List<CourseTable> values = dataBdd.getFiveCourses();
 
         // utilisez SimpleCursorAdapter pour afficher les éléments dans une ListView
         adapter = new ArrayAdapter<CourseTable>(this, android.R.layout.simple_list_item_1, values);
         listView.setAdapter(adapter);
 
         delete = findViewById(R.id.button_delete);
-        modif = findViewById(R.id.button_modif);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,13 +103,9 @@ MainActivity extends AppCompatActivity
         }*/
     }
 
-    public void myClickHandler(View view) {
-        switch (view.getId()) {
-            case R.id.button_modif:
-                Intent intent = new Intent(this, UpdateActivity.class);
-                startActivity(intent);
-                break;
-        }
+    public void modifyCourse(){
+        Intent intent = new Intent(this, UpdateActivity.class);
+        startActivity(intent);
     }
 
     public void deleteOldestCourse(ListView listView){
@@ -175,7 +169,8 @@ MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            Intent intent = new Intent(this, PhotoActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.add_match) {

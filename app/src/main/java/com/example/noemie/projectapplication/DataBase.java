@@ -3,6 +3,7 @@ package com.example.noemie.projectapplication;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.sql.Time;
@@ -32,7 +33,7 @@ public class DataBase extends SQLiteOpenHelper {
             + " text not null, " + COL_LONGITUDE
             + " text not null, " + COL_TEMPS
             + " text not null, "+ COL_COM
-            + " text not null); ";
+            + " text not null);";
 
     public DataBase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
