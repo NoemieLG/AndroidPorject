@@ -10,6 +10,10 @@
                 android:id="@+id/add_match"
                 android:icon="@drawable/ic_menu_manage"
                 android:title="Ajouter un match" />
+            <item
+                android:id="@+id/chrono_match"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Chronomètre" />
         </menu>
     </item>
     <item android:title="Photos">
@@ -31,7 +35,7 @@
         <menu>
             <item
                 android:id="@+id/nav_stat"
-                android:icon="@drawable/ic_menu_slideshow"
+                android:icon="@drawable/ic_action_stat"
                 android:title="Voir les statistiques" />
 
         </menu>
@@ -41,8 +45,8 @@
         <menu>
             <item
                 android:id="@+id/nav_info"
-                android:icon="@drawable/ic_menu_slideshow"
-                android:title="utilisation de l'appli" />
+                android:icon="@drawable/ic_action_info"
+                android:title="utilisation de l'appli"/>
 
         </menu>
     </item>

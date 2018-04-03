@@ -1,5 +1,6 @@
 package com.example.noemie.projectapplication;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -41,7 +42,16 @@ public class PhotoActivity extends AppCompatActivity {
         pictureButton.setOnClickListener(new View.OnClickListener(){
             public void onClick (View v){
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                /*if (intent.resolveActivity(getApplication().getPackageManager()) != null){
+                    ContentValues values = new ContentValues(1);
+                    values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT,
+                            getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values));
+                    startActivityForResult(intent, REQUEST_TAKE_PHOTO);
+                }*/
                 startActivityForResult(intent, 0);
+
+
             }
         });
 

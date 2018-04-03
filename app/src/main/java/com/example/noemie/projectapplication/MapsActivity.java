@@ -5,11 +5,17 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.ResultReceiver;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -20,7 +26,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -30,12 +39,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Locale;
+
+import static android.widget.Toast.*;
 
 /*Activitée qui permet d'ajouter la course d'un sprinter dans l'application*/
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener,
-    CourseInBddFragment.OnFragmentInteractionListener{
+    CourseInBddFragment.OnFragmentInteractionListener, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
 
     /*Pour afficher la map avec le marker*/
     private GoogleMap mMap;
@@ -53,6 +67,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private EditText com;
     private String latreal;
     private String lonreal;
+    private TextView adresse;
 
     //Pour sauvegarder les localisations dans une base de données
     private SportDataSource dataBdd;
@@ -60,6 +75,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private CourseInBddFragment dataFragment;
     //private ListView listView;
     private MapsActivity main;
+
+    /*Pour le geocoding reverse*/
+    protected Location location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +91,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         com = findViewById(R.id.com);
         latitudeField = findViewById(R.id.latitude_xml);
         longitudeField = findViewById(R.id.longitude_xml);
+        adresse = findViewById(R.id.address_xml);
         //listView = findViewById(R.id.list);
+
+        /*Récupération des données de l'intent*/
+        Bundle extras = getIntent().getExtras();
+
+        if (extras != null){
+            /*Affichage des valeurs dans les TextView de AsyncActivity*/
+            long value = extras.getLong("chrono");
+            temps.setText(String.valueOf(value));
+        }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
@@ -92,7 +120,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Pour instancier l'objet de la classe LocationDataSource
         dataBdd = new SportDataSource(this);
-
         dataBdd.open();
 
         /*List<CourseTable> values = dataBdd.getAllComments();
@@ -135,8 +162,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             latreal = String.valueOf(latLng.latitude);
             lonreal = String.valueOf(latLng.longitude);
+
+            Geocoder geocoder;
+            List<Address> addresses;
+            geocoder = new Geocoder(this, Locale.getDefault());
+
+            try {
+                addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                String city = addresses.get(0).getLocality();
+                String state = addresses.get(0).getAdminArea();
+                String country = addresses.get(0).getCountryName();
+                String postalCode = addresses.get(0).getPostalCode();
+                String knownName = addresses.get(0).getFeatureName();
+
+                /*System.out.println(address);
+                System.out.println(city);
+                System.out.println(state);
+                System.out.println(country);
+                System.out.println(postalCode);
+                System.out.println(knownName);*/
+
+                adresse.setText("Adresse de la course: " + address);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
+
 
     public void addCourse(View view){
         //@SuppressWarnings("unchecked");
@@ -191,6 +245,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
 }

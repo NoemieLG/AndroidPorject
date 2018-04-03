@@ -41,14 +41,14 @@ MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -175,6 +175,9 @@ MainActivity extends AppCompatActivity
 
         } else if (id == R.id.add_match) {
             Intent intent = new Intent(this, MapsActivity.class);
+            startActivity(intent);
+        }else if (id == R.id.chrono_match) {
+            Intent intent = new Intent(this, ChronoActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_stat) {
 
