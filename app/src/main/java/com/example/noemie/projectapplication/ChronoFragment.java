@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -29,6 +30,7 @@ public class ChronoFragment extends Fragment {
     Chronometer chrono;
     Button start, stop, reset;
     TextView title;
+    ImageView image;
     long timeWhenStopped = 0;
     boolean currentlyTiming = false;
 
@@ -84,6 +86,7 @@ public class ChronoFragment extends Fragment {
         start = view.findViewById(R.id.start_xml);
         reset = view.findViewById(R.id.reset_xml);
         stop = view.findViewById(R.id.stop_xml);
+        //image = view.findViewById(R.id.imageView2);
 
         start.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){

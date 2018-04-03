@@ -6,10 +6,12 @@ import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 public class ChronoActivity extends AppCompatActivity implements ChronoFragment.OnFragmentInteractionListener{
 
     ChronoFragment chronoFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

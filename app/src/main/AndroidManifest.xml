@@ -61,7 +61,8 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".ChronoActivity"></activity>
+        <activity android:name=".ChronoActivity" />
+        <activity android:name=".BddExtActivity"></activity>
     </application>
 
 </manifest>

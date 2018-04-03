@@ -67,6 +67,7 @@ MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                     //long itemID = (long) listView.getItemAtPosition(position);
+                //char[] course = adapterView.getItemAtPosition(position);
                 modifyCourse();
             }
         });
@@ -104,6 +105,15 @@ MainActivity extends AppCompatActivity
     }
 
     public void modifyCourse(){
+        /*int i=0;
+        String id = null;
+        while(string[i] != 'n'){
+               i+=1;
+        }
+        for(int j=0; j<i; j++){
+            id = id + string[i];
+        }*/
+        //System.out.println(id);
         Intent intent = new Intent(this, UpdateActivity.class);
         startActivity(intent);
     }
@@ -180,6 +190,8 @@ MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, ChronoActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_stat) {
+            Intent intent = new Intent(this, BddExtActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_info) {
 
